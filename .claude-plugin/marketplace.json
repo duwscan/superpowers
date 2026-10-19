@@ -1,6 +1,6 @@
 {
-  "name": "superpowers-dev",
-  "description": "Development marketplace for Superpowers core skills library",
+  "name": "superpowers",
+  "description": "Marketplace for duwscan's Superpowers fork: OMP-native support, no worktree workflow",
   "owner": {
     "name": "Jesse Vincent",
     "email": "jesse@fsck.com"

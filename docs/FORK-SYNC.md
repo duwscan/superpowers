@@ -75,5 +75,5 @@ Requires `jq` and `yq` on PATH (used by `scripts/bump-version.sh`).
 
 ```
 omp plugin marketplace add duwscan/superpowers
-omp plugin install duwscan-s-superpowers@superpowers-dev
+omp plugin install duwscan-s-superpowers@superpowers
 ```

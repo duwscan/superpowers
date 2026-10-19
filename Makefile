@@ -3,7 +3,7 @@
 
 UPSTREAM_REMOTE := upstream
 UPSTREAM_BRANCH := main
-MARKETPLACE     := superpowers-dev
+MARKETPLACE     := superpowers
 PLUGIN_ID       := duwscan-s-superpowers@$(MARKETPLACE)
 VERSION         ?=
 
