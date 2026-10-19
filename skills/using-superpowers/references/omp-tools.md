@@ -29,7 +29,7 @@ Superpowers' Model Selection rules — cheapest tier for transcription implement
 - **Pick the `agent` per tier.** Bundled agents: `scout` (read-only investigation), `task` (implementation), `reviewer`, `security-reviewer`. To pin real tiers, define agents with a `model:` line in `.omp/agents/` (project) or `~/.omp/agent/agents` (user) — e.g. a cheap-model implementer and a capable-model reviewer — or ask your human partner to set `task.agentModelOverrides`. Models tagged with `^` in the composer become `m1`/`m2`… pseudo-agents usable as the `agent` value.
 - **Set `solutionSpace` honestly — it is the effort signal.** For `auto`-thinking agents (the bundled `task`), `solutionSpace` is the only input the effort classifier sees: `"one fix: <names given>"` for transcription tasks, `"design open: <what remains>"` for judgment work. Never widen it to make a task sound harder.
 - **Per-item `effort` (`lo`/`med`/`hi`) requires `task.enableEffort=true`** (default off). With it on, pass `effort` per spawn per the skill's tier rules; it overrides the agent's configured thinking selector.
-- **Escalation and the final review** (fix-loop rounds 4-5, whole-branch review): dispatch on a higher-tier agent than the one that got stuck — a capable-model agent or a tagged model agent, never the session default by accident.
+- **Escalation and the final review** (fix-loop rounds 4-5, whole-branch review): these resolve like any other dispatch — name the higher-tier agent the skill's Model Selection asks for explicitly; an unnamed agent falls back to the session model.
 
 ## Task lists
 
