@@ -19,6 +19,7 @@ Superpowers is a complete software development methodology for your coding agent
   - [Grok Build CLI](#grok-build-cli)
   - [Kimi Code](#kimi-code)
   - [OpenCode](#opencode)
+  - [Oh My Pi (OMP)](#oh-my-pi-omp)
   - [Pi](#pi)
   - [Qwen Code](#qwen-code)
   - [Hermes Agent](#hermes-agent)
@@ -233,6 +234,25 @@ already use it in another harness.
   ```
 
 - Detailed docs: [docs/README.opencode.md](docs/README.opencode.md)
+
+### Oh My Pi (OMP)
+
+Superpowers loads in OMP as an extension package: the `using-superpowers` bootstrap is injected at session start and re-injected after compaction, and the skills ride OMP's native skill system (`read skill://<name>/SKILL.md`).
+
+- Install from this repository's marketplace catalog (OMP reads the Claude-compatible catalog):
+
+  ```bash
+  omp plugin marketplace add duwscan/superpowers
+  omp plugin install superpowers@superpowers-dev
+  ```
+
+- Or load a local checkout for development:
+
+  ```bash
+  omp -e /path/to/superpowers
+  ```
+
+  OMP prefers the `omp.extensions` manifest, so the OMP bootstrap extension loads and skills are discovered from the bundled `skills/` directory.
 
 ### Pi
 
