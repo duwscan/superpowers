@@ -33,4 +33,13 @@ if missing or extra:
 print(f"OK: {len(skills)} skills, all registered in .muse-plugin/plugin.json")
 EOF
 
+# 3. skills/ must not reference docs/superpowers/ (specs/plans default to docs/specs/ and docs/plans/).
+if grep -rqn "docs/superpowers" skills/; then
+  echo "POLICY VIOLATION: docs/superpowers reintroduced in skills/:"
+  grep -rln "docs/superpowers" skills/
+  failures=1
+else
+  echo "OK: no docs/superpowers references in skills/"
+fi
+
 exit "$failures"

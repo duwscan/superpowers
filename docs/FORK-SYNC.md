@@ -11,6 +11,10 @@ every sync:
 3. **Plugin renamed to `duwscan-s-superpowers`** in `.claude-plugin/` (the shared
    OMP/Claude Code distribution identity), with homepage/repository pointing at
    the fork.
+4. **Specs and plans default to `docs/specs/` and `docs/plans/`** — `brainstorming`
+   and `writing-plans` save artifacts to `docs/specs/` and `docs/plans/` instead of
+   `docs/superpowers/specs/` and `docs/superpowers/plans/` to keep consumer projects
+   clean of vendor namespaces.
 
 Upstream PRs land on `dev`; releases are cut to `main`. Sync from `upstream/main`
 (stable releases only).
@@ -50,6 +54,8 @@ A clean merge can still reintroduce fork violations in new upstream prose.
 2. **Skill/manifest count parity** — every `skills/<name>/` directory must have
    an entry in `.muse-plugin/plugin.json` (and vice versa), so upstream's new
    skills get registered.
+3. **No `docs/superpowers` in skills** — skills must not reintroduce
+   `docs/superpowers/` paths for specs or plans.
 
 ## Version bumps
 
