@@ -243,7 +243,7 @@ Superpowers loads in OMP as an extension package: the `using-superpowers` bootst
 
   ```bash
   omp plugin marketplace add duwscan/superpowers
-  omp plugin install superpowers@superpowers-dev
+  omp plugin install duwscan-s-superpowers@superpowers-dev
   ```
 
 - Or load a local checkout for development:
