@@ -94,8 +94,6 @@ Built-in coding tools are lowercase: \`read\`, \`write\`, \`edit\`, \`bash\`, pl
 
 Subagent dispatch (Superpowers \`Subagent (general-purpose):\` templates) maps to the \`task\` tool: give each subagent a self-contained prompt with the full task text. Use the read-only \`scout\` agent for investigation and the general \`task\` agent for implementation work.
 
-Model tiers per the dispatching skill's Model Selection: the \`task\` tool takes no direct model parameter — pin tiers by \`agent\` (custom agents with a \`model:\` line in \`.omp/agents/\`, or the \`task.agentModelOverrides\` setting), pass per-item \`effort\` when \`task.enableEffort\` is enabled, and always set \`solutionSpace\` honestly: it is the only input OMP's effort classifier reads.
-
 Task tracking maps to the \`todo\` tool. Treat older \`TodoWrite\` references as this action.
 
 Details: \`references/omp-tools.md\` in the using-superpowers skill.`;

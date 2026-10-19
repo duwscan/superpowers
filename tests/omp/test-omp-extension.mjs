@@ -133,21 +133,3 @@ test('omp tools reference documents omp-specific mappings', async () => {
     'mapping table documents task tracking',
   );
 });
-
-test('omp tools reference documents model routing on dispatches', async () => {
-  const text = await readFile(ompToolsPath, 'utf8');
-
-  assert.match(text, /## Model routing on dispatches/);
-  assert.ok(
-    text.includes('solutionSpace'),
-    'routing documents solutionSpace as the effort-classifier signal',
-  );
-  assert.ok(
-    text.includes('task.enableEffort'),
-    'routing documents the per-item effort opt-in',
-  );
-  assert.ok(
-    text.includes('task.agentModelOverrides'),
-    'routing documents the agent model override setting',
-  );
-});
