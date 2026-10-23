@@ -65,12 +65,12 @@ Each agent gets:
 
 ### 3. Dispatch in Parallel
 
-Issue all three subagent dispatches in the same response — they run in parallel:
+Issue all three subagent dispatches via Claude Code's `Agent` tool in the same turn (they run concurrently). Remember that all dispatches use `model: "sonnet"` and `effort: "medium"`:
 
 ```text
-Subagent (general-purpose): "Fix agent-tool-abort.test.ts failures"
-Subagent (general-purpose): "Fix batch-completion-behavior.test.ts failures"
-Subagent (general-purpose): "Fix tool-approval-race-conditions.test.ts failures"
+Agent (subagent_type: general-purpose, model: sonnet, effort: medium): "Fix agent-tool-abort.test.ts failures"
+Agent (subagent_type: general-purpose, model: sonnet, effort: medium): "Fix batch-completion-behavior.test.ts failures"
+Agent (subagent_type: general-purpose, model: sonnet, effort: medium): "Fix tool-approval-race-conditions.test.ts failures"
 # All three run concurrently.
 ```
 

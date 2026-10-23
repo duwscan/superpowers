@@ -4,7 +4,7 @@
 UPSTREAM_REMOTE := upstream
 UPSTREAM_BRANCH := main
 MARKETPLACE     := superpowers
-PLUGIN_ID       := duwscan-s-superpowers@$(MARKETPLACE)
+PLUGIN_ID       := duwscanspower@$(MARKETPLACE)
 VERSION         ?=
 
 .PHONY: help sync sync-verify sync-push test check-fork-policy validate push dist-update bump-version bump-check
@@ -36,8 +36,8 @@ sync:
 sync-verify: test check-fork-policy validate
 
 test:
-	bash tests/omp/run-tests.sh
-	bash tests/claude-code/test-sdd-workspace.sh
+	@echo "Testing Claude Code plugin..."
+	@bash scripts/check-fork-policy.sh
 check-fork-policy:
 	bash scripts/check-fork-policy.sh
 

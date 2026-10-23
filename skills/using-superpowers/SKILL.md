@@ -30,6 +30,31 @@ When multiple skills apply, process skills come first — they set the approach,
 - "Let's build X" → superpowers:brainstorming first, then implementation skills.
 - "Fix this bug" → superpowers:systematic-debugging first, then domain skills.
 
+## Codebase Exploration & Research: Prioritize `Explore` Subagent
+
+When you need to research or explore the codebase (such as searching symbols, mapping files, or understanding architecture across multiple modules), **prioritize dispatching an `Explore` subagent** rather than performing extensive searches in the main session.
+
+- Direct file reads or quick checks in the main session are completely permitted (you are not forbidden from using `Read`, `Grep`, or `Glob` directly for targeted tasks).
+- However, for non-trivial exploration or broad codebase research, dispatching an `Explore` subagent keeps the main session's context window clean and minimizes token burn:
+  ```json
+  {
+    "name": "Agent",
+    "input": {
+      "subagent_type": "Explore",
+      "model": "haiku",
+      "description": "Explore <topic / module / symbol>",
+      "prompt": "Find <files, interfaces, schemas, call sites> for <topic>. Return a concise summary with exact file paths and signatures."
+    }
+  }
+  ```
+- Use `model: "haiku"` for fast, cost-efficient, read-only exploration without wasting reasoning tokens.
+
+## Planning: Claude Code Native Plan Mode
+
+The `writing-plans` skill has been replaced by Claude Code's native planning feature.
+- After brainstorming is completed and the design is approved (saved to `docs/specs/YYYY-MM-DD-<topic>-design.md`), transition directly to **Claude Code native Plan mode** (or built-in `Plan` subagent) to formulate the task plan.
+- Break work into small, verifiable tasks with explicit test expectations, and save the plan to `docs/plans/YYYY-MM-DD-<feature-name>.md`.
+
 ## Red Flags
 
 These thoughts mean STOP—you're rationalizing:
@@ -38,8 +63,8 @@ These thoughts mean STOP—you're rationalizing:
 |---------|---------|
 | "This is just a simple question" | Questions are tasks. Check for skills. |
 | "I need more context first" | Skill check comes BEFORE clarifying questions. |
-| "Let me explore the codebase first" | Skills tell you HOW to explore. Check first. |
-| "I can check git/files quickly" | Files lack conversation context. Check for skills. |
+| "Let me explore the codebase first" | Prioritize dispatching Explore subagent (`model: haiku`) for broad research to keep main context clean. |
+| "I can check git/files quickly" | Quick checks are fine, but prefer Explore subagent for multi-file investigations. |
 | "Let me gather information first" | Skills tell you HOW to gather information. |
 | "This doesn't need a formal skill" | If a skill exists, use it. |
 | "I remember this skill" | Skills evolve. Read current version. |
@@ -49,17 +74,10 @@ These thoughts mean STOP—you're rationalizing:
 | "This feels productive" | Undisciplined action wastes time. Skills prevent this. |
 | "I know what that means" | Knowing the concept ≠ using the skill. Invoke it. |
 
-## Platform Adaptation
+## Platform Reference
 
-If your harness appears here, read its reference file for special instructions:
-
-- Claude Code: `references/claude-code-tools.md`
-- Codex: `references/codex-tools.md`
-- Pi: `references/pi-tools.md`
-- Antigravity: `references/antigravity-tools.md`
-- Hermes Agent: `references/hermes-tools.md`
-- Muse: `references/muse-tools.md`
-- Oh My Pi (OMP): `references/omp-tools.md`
+This repository is dedicated solely to **Claude Code**:
+- Refer to `references/claude-code-tools.md` for specific tool parameters (`Agent`, `subagent_type`, `model`, `effort`).
 
 ## User Instructions
 

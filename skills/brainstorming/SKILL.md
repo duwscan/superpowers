@@ -135,7 +135,7 @@ words. They can override it.
 |------|----------------------|------|
 | A quick, clear task | the request itself | do it |
 | A small change | in chat | build it through the normal workflow |
-| A project with a written design | a written design document | a full plan (for software: superpowers:writing-plans) |
+| A project with a written design | a written design document | a full plan via Claude Code native Plan mode |
 
 If it grows mid-task, stop, say so, and step up a size.
 
@@ -181,15 +181,17 @@ Nothing gets built until your human partner approves the full
 description: in chat for a small change, the document for a project.
 Building includes writing product code, scaffolding, installing
 dependencies, creating projects, and invoking an implementation skill.
-Reading and exploring are fine.
+Reading and exploring are fine — but remember to dispatch the `Explore` subagent (model: haiku) for any non-trivial codebase research.
 
 Two exceptions. If they opted out of the questions, the skill is done
 and the gate goes with it. A spike they said yes to may be built; it
 stays labeled throwaway, and keeping what it produced is a new request
 that comes back through this gate.
 
-After a project's document is approved, the next step is the plan. For
-software, invoke superpowers:writing-plans and no other skill.
+After a project's document is approved (saved to `docs/specs/YYYY-MM-DD-<topic>-design.md`),
+the next step is the plan. For software, transition directly to **Claude Code's native Plan mode**
+(or built-in `Plan` subagent) to formulate the plan at `docs/plans/YYYY-MM-DD-<feature-name>.md`,
+and do not invoke a separate planning skill.
 </HARD-GATE>
 
 ## Red Flags

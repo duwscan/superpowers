@@ -8,8 +8,8 @@ every sync:
    executing-plans work on a feature branch in the current checkout.
 2. **Oh My Pi (OMP) support** — `.omp/extensions/superpowers.ts` bootstrap,
    `references/omp-tools.md`, `omp.extensions` in `package.json`, `tests/omp/`.
-3. **Plugin renamed to `duwscan-s-superpowers`** in `.claude-plugin/` (the shared
-   OMP/Claude Code distribution identity), with homepage/repository pointing at
+3. **Plugin renamed to `duwscanspower`** in `.claude-plugin/` (the shared
+   distribution identity), with homepage/repository pointing at
    the fork.
 4. **Specs and plans default to `docs/specs/` and `docs/plans/`** — `brainstorming`
    and `writing-plans` save artifacts to `docs/specs/` and `docs/plans/` instead of
