@@ -34,7 +34,7 @@ Explore and inspect the codebase directly in your session using Claude Code's na
 
 ## Planning: Claude Code Native Plan Mode
 
-The legacy `writing-plans` skill has been replaced by Claude Code's native planning feature.
+The `writing-plans` skill has been replaced by Claude Code's native planning feature.
 - After brainstorming is completed and the design is approved (saved to `docs/specs/YYYY-MM-DD-<topic>-design.md`), transition directly to **Claude Code native Plan mode** to formulate the task plan.
 - Break work into small, verifiable tasks with explicit test expectations, and save the plan to `docs/plans/YYYY-MM-DD-<feature-name>.md`.
 - Once approved, proceed to execution via `superpowers:executing-plans` (or trigger the `/executing-plans` slash command to automatically use `sonnet` with `medium` effort).
