@@ -55,7 +55,7 @@ Or install directly from the marketplace:
 
 2. **Claude Code Native Planning** - Activates with approved design. Enter Claude Code's native Plan mode to decompose the design into bite-sized, verifiable tasks at `docs/plans/`.
 
-3. **/executing-plans** - Dedicated slash command that auto-switches to `model: sonnet` with `medium` effort and executes the plan inline, task-by-task with strict TDD and an inline review pass.
+3. **executing-plans** - Activates with plan (or triggered via `/executing-plans`). Configured for `model: sonnet` with `medium` effort and executes the plan inline, task-by-task with strict TDD and an inline review pass.
 
 4. **test-driven-development** - Activates during implementation. Enforces RED-GREEN-REFACTOR: write failing test, watch it fail, write minimal code, watch it pass, commit. Deletes code written before tests.
 

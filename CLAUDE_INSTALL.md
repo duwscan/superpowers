@@ -48,22 +48,24 @@ Nếu plugin đã được đăng ký trên marketplace:
 
 ---
 
-## 3. Lệnh Mới: `/executing-plans` (Tự Động Switch Sonnet Medium)
+## 3. Skill & Command: `executing-plans` (Tự Động Switch Sonnet Medium)
 
-Plugin cung cấp slash command `/executing-plans`:
-```text
-/executing-plans [docs/plans/YYYY-MM-DD-<feature>.md]
-```
-*(hoặc `/duwscanspower:executing-plans`)*
+`executing-plans` là **skill cốt lõi** (`superpowers:executing-plans`) chịu trách nhiệm thực thi kế hoạch triển khai (plan) inline trong cùng một session với TDD:
+- **Tự động áp dụng cấu hình**: Trong frontmatter của skill `executing-plans` được cấu hình cố định `model: sonnet` và `effort: medium` nhằm tối ưu tốc độ và chi phí token.
+- **Slash command tiện lợi**: Bạn có thể gọi nhanh bằng lệnh:
+  ```text
+  /executing-plans [docs/plans/YYYY-MM-DD-<feature>.md]
+  ```
+  *(hoặc `/duwscanspower:executing-plans`)*
 
-Lệnh này tự động:
+Lệnh / Skill này tự động:
 1. **Chuyển model sang `sonnet`** và **effort sang `medium`** (`model: sonnet`, `effort: medium`).
 2. Tự động nhận diện file plan vừa lập trong `docs/plans/` (hoặc nhận đường dẫn bạn truyền vào).
 3. Thực thi từng task theo phương pháp TDD inline trực tiếp trong session hiện tại.
 
 ### Cấu hình Model tổng thể:
 * **Session thiết kế, lên kế hoạch ban đầu**: Sử dụng `opus` (hoặc mặc định) để thảo luận, brainstorming và lập plan.
-* **Session thực thi plan**: Chạy `/executing-plans` để tự động dùng `sonnet` với `effort: medium` giúp tốc độ phản hồi nhanh chóng và tối ưu token cost.
+* **Thực thi plan (`executing-plans`)**: Tự động chuyển sang `sonnet` với `effort: medium` giúp tốc độ phản hồi nhanh chóng và tối ưu token cost.
 
 ---
 

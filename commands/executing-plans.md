@@ -5,7 +5,7 @@ effort: medium
 argument-hint: [plan-path]
 ---
 
-Execute the implementation plan in single-session mode with `model: sonnet` and `effort: medium`.
+Invoke and execute the `superpowers:executing-plans` skill in single-session mode with `model: sonnet` and `effort: medium`.
 
 1. **Model & Effort Verification:**
    - Active execution model must be `sonnet`.
