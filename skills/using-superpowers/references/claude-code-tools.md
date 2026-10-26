@@ -27,12 +27,12 @@ The legacy `writing-plans` skill has been replaced by Claude Code's **Native Pla
 ## 3. Model & Effort Configuration: `/executing-plans`
 
 To optimize token efficiency and response speed:
-* **Interactive Architecture & Planning:** Brainstorming and high-level design in the primary session can run on `model: opus` (or session default).
-* **Execution with Sonnet Medium:** For executing implementation plans, use the dedicated slash command:
+* **Default Skill Execution:** When `superpowers:executing-plans` is invoked directly as a skill, it executes using the active model and effort of the current session.
+* **Cost-Optimized Execution via `/executing-plans`:** When you want to execute using Sonnet with medium effort to save tokens and speed up iteration, use the dedicated slash command:
   ```
   /executing-plans [docs/plans/...]
   ```
-  This command automatically sets:
+  This command explicitly sets:
   - `model: sonnet`
   - `effort: medium`
   - Loads and follows `superpowers:executing-plans` to implement the plan step-by-step with strict TDD.

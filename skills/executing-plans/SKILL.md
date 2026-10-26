@@ -1,8 +1,6 @@
 ---
 name: executing-plans
 description: Use when executing an implementation plan in the current session — single-session inline execution with TDD, no subagents, and an inline self-review pass
-model: sonnet
-effort: medium
 ---
 
 # Executing Plans (Claude Code Inline Execution)
@@ -11,7 +9,7 @@ Execute the plan yourself, task by task, in the current session: 100% single-ses
 
 **Why inline:** Inline execution runs in one continuous session context (yours). It eliminates the latency, cost, and context fragmentation of subagent dispatches while maintaining engineering rigor through strict Test-Driven Development (TDD).
 
-**Model & Effort:** Configured with `model: sonnet` and `effort: medium`. When this skill is active (invoked directly as a skill `superpowers:executing-plans` or via the `/executing-plans` slash command), ensure the session runs on Sonnet with medium reasoning effort for optimal speed and cost efficiency.
+**Model & Execution Environment:** By default, this skill executes inline using the current session's active model and effort settings. When you want to optimize token consumption and execution speed, trigger the slash command `/executing-plans` (or `/duwscanspower:executing-plans`), which explicitly switches the session to `sonnet` with `medium` effort.
 
 **Core principle:** Follow the plan step-by-step. Prove each task with a test you watched fail and then pass (TDD), commit each task cleanly, and conduct an inline whole-branch self-review before finishing.
 
