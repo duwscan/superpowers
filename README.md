@@ -99,7 +99,6 @@ Superpowers is built by [Jesse Vincent](https://blog.fsck.com) and the rest of t
 - **finishing-a-development-branch** - Merge/PR decision workflow
 
 **Meta**
-- **writing-skills** - Create new skills following best practices (includes testing methodology)
 - **using-superpowers** - Introduction to the skills system
 
 ## Philosophy
