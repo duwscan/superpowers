@@ -5,7 +5,7 @@ description: "Use for \"how does X work\", code walkthroughs before changing som
 
 # How
 
-Explore the codebase inline to answer "how does X work?" questions, code walkthroughs before making changes, and architectural placement questions ("where should this live?", "which layer owns this?").
+Explore the codebase to answer "how does X work?" questions, code walkthroughs before making changes, and architectural placement questions ("where should this live?", "which layer owns this?").
 
 Produce architectural explanations at the level of a senior engineer onboarding onto a subsystem: enough to build an accurate mental model, not so detailed that it reads like an annotated line-by-line code dump.
 
@@ -16,23 +16,49 @@ Produce architectural explanations at the level of a senior engineer onboarding 
 - **Placement & layering decisions:** "Where should this logic live?", "Which package should own this service?", "Is this the right layer for caching?"
 - **Subsystem mental models:** Building onboarding understanding of complex modules or cross-cutting features
 
+## Exploration Strategy & Model Rule
+
+Depending on complexity, you can explore inline or dispatch an explorer subagent:
+
+| Complexity | Scope | Strategy | Model / Tool |
+| :--- | :--- | :--- | :--- |
+| **Simple** | Single function, utility, 1–2 files | Inline in main session | Native `Read`, `Grep`, `Glob` |
+| **Complex** | Subsystem spanning multiple files/services, cross-cutting feature | Dispatch Explorer Subagent | `Agent` tool with **`model: "haiku"`** |
+
+> [!IMPORTANT]
+> **Subagent Dispatch Rule:**
+> When dispatching an exploration subagent, you **MUST explicitly pass `model: "haiku"`** (with `subagent_type: "Explore"` or `"general-purpose"`). Never use Opus or high effort for exploration subagents. Haiku is fast, read-only, and prevents blowing up context and token budget.
+
 ## The Process
 
-All exploration and explanation happen directly within your current session (100% single-session, no subagents).
+### 1. Assess Question & Scope
+- Identify the specific subsystem, flow, or architectural decision being asked.
+- Determine whether it is **Simple** (inspect inline) or **Complex** (dispatch Haiku subagent).
 
-1. **Assess Question & Scope:**
-   - Identify the specific subsystem, flow, or architectural decision being asked.
-   - If the scope is broad or ambiguous, state your interpretation and begin exploring; your human partner can redirect if needed.
+### 2. Exploration Phase
 
-2. **Explore the Codebase Inline:**
-   Use Claude Code's native tools (`Read`, `Grep`, `Glob`) directly:
-   - Locate entry points, public interfaces, configuration schemas, and route handlers.
-   - Trace the execution flow step by step: what triggers the flow, what methods run, what data is passed, and where decisions branch.
-   - Map module boundaries and interactions with external services or databases.
-   - Identify non-obvious behaviors, invariants, and historical constraints.
+**For Simple Questions (Inline):**
+- Use `Read`, `Grep`, and `Glob` directly in the session to trace the relevant function and return the explanation.
 
-3. **Synthesize & Present:**
-   Present a clear, structured explanation using the format below.
+**For Complex Questions (Dispatch Haiku Subagent):**
+- Dispatch an explorer subagent via the `Agent` tool using the template in `references/explorer-prompt.md`:
+  ```json
+  {
+    "name": "Agent",
+    "input": {
+      "subagent_type": "Explore",
+      "model": "haiku",
+      "description": "Trace architecture and flow for <topic>",
+      "prompt": "<Prompt from references/explorer-prompt.md filled with question and exploration angle>"
+    }
+  }
+  ```
+- For very wide subsystems, you may dispatch 2–3 focused Haiku explorers in parallel (e.g. one for frontend trigger/routing, one for backend processing/data models).
+
+### 3. Synthesize & Present
+The main session synthesizes the findings and presents the final explanation according to the Output Format below.
+
+---
 
 ## Output Format
 
@@ -56,6 +82,8 @@ A brief, practical file/directory map listing the key files someone needs to sta
 
 ### Gotchas & Non-Obvious Behavior
 Surprising behaviors, race conditions, edge cases, caching pitfalls, or historical context that is easy to misunderstand. Skip if none.
+
+---
 
 ## Communication Style
 
