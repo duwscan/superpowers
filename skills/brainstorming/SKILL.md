@@ -23,18 +23,63 @@ why?
   blue"). This is a quick, clear task. Do it, and say what you did.
 - **Something non-trivial is missing.** Start the conversation.
 
+Before you start implementing, you must, in order:
+
+1. Lay out the approaches in a message of their own, and have your
+   human partner pick one (see Lay out the approaches).
+2. Write the design doc, short or full (see Size the Work).
+3. Get their approval of that doc.
+4. Transition to Claude Code Native Plan Mode.
+
+Two things aren't implementing: a spike they said yes to (see Spike to
+feel things out), and doing what they asked once they've opted out of
+the questions.
+
+## Look Before You Ask
+
+In an existing project, or when they've given you context (a spec, a plan,
+a handoff, files they pointed at, earlier conversation), dig in before your
+first message. Read what they referred to and the code or material it
+connects to, and keep reading until you can explain how the relevant
+parts work today and what this change would touch. Never ask what the
+project or their context already answers.
+
 ## Your First Message
 
-Your first message is two things, in this order:
+Move the work forward, with one of these:
 
-1. One line letting them know that if they'd rather skip the questions and
-   have you just start, they can say so. If they take you up on it, this
-   skill is done: state any significant how-it-gets-made choice
-   (platform, language, medium) in one plain line, then do what they
-   asked through the normal workflow.
-2. One open question that gets them describing. Ask about a real moment
-   or a concrete picture: "What's the moment you find yourself wishing
-   this existed?" or "Tell me about the people who'll be in the room."
+- **They've already said what they want** (a spec, a plan, a detailed
+  request): aim for about 200 words for the whole message. Echo their
+  request back in your own words, so they can see whether you've got its
+  shape: what they want, who it's for, and why, as far as they've said.
+  Add what you found that bears on it: how the relevant parts work today
+  and what the change would touch. If you found something they may not
+  have considered that would change what they're asking for or how it
+  has to be built, like a constraint, a conflict, or a cheaper path, say
+  so plainly. How to build it comes later, once you understand what they
+  want (see Lay out the approaches). End with one line inviting
+  corrections, then one question about what they want: the thing their
+  request leaves open whose answer would most change what gets built.
+  Specs are often incomplete, so confirm before you build on one.
+- **They haven't:** one open question, in their own terms, about the
+  biggest thing their request leaves unsettled. Say why you're asking:
+  what the answer would change about what you build. For "a website for
+  my bakery": "If it's mostly for people deciding whether to stop by,
+  I'd lead with hours and what's in the case today; taking orders is a
+  different site. What do you want someone to do when they land on it?"
+
+How the message ends depends on whether their message asked for
+brainstorming:
+
+- **They asked for it** (by name, by invoking it, or by asking for a
+  design discussion): end with your question. They want this
+  conversation.
+- **They didn't:** they may not want a conversation at all. After your
+  question, add a light, one-line offer to just get going instead, like
+  "Or if you'd rather I just dive in, say so." If they take you up on
+  it, this skill is done: state any significant how-it-gets-made choice
+  (platform, language, medium) in one plain line, then do what they
+  asked through the normal workflow.
 
 That's the whole message.
 
@@ -43,7 +88,8 @@ That's the whole message.
 Each message ends with one question: a single sentence with no list of
 example answers hanging off it. Use plain language, pitched just a little
 above where your human partner is. Match their vocabulary; never use
-process jargon.
+process jargon. You never need to quote this skill to your human
+partner.
 
 Be clear and concise. Lead with what matters. Avoid jargon. When you
 report what you found, give them the most important findings and offer
@@ -89,6 +135,20 @@ several ideas and drop the weak ones, including any that fight what
 they've told you about why. Show the comparison only when it helps them
 decide.
 
+**Lay out the approaches.** Once you understand what they want, propose
+two or three approaches to building it, with what each trades off
+(complexity, speed, maintenance, fit with the existing code). Recommend
+one and say why.
+
+Keep each approach short: a name, a sentence or two of description,
+and the key trade-offs. Don't write the design doc yet: lay them out in
+a message of their own, ending with a question about which they prefer
+or what they'd change. That choice shapes the design doc.
+
+Only skip this when the change is so small there's only one sensible way
+to build it. Even then, state what that way is and check they agree
+before writing the doc.
+
 **Show, don't tell.** Offer the visual companion (below) whenever seeing
 would help more than reading:
 
@@ -117,8 +177,9 @@ behaves), describe that part back in about 200-300 words, then return to
 questions about the next part. Playback and questions alternate through
 the whole conversation; the last chunk covers whatever is left.
 
-Mark anything you're guessing as your guess; only what they said goes in
-as theirs. End each chunk by asking what's wrong or missing.
+Only what they said goes in as theirs. Anything you filled in goes in
+as your proposal, with your reason. End each chunk by asking what's wrong
+or missing.
 
 Before you send a chunk, check it: does it describe something they'll
 look at, like a page, a screen, a schedule, or a printout? If so, and
@@ -128,14 +189,18 @@ they've accepted, put a mockup next to the description.
 
 ## Size the Work
 
-Once you understand what they want, pick a size and say it in plain
-words. They can override it.
+Once you understand what they want and they've picked an approach, say
+how big the work is in plain words. They can override it.
 
-| Size | The full description | Then |
-|------|----------------------|------|
-| A quick, clear task | the request itself | do it |
-| A small change | in chat | build it through the normal workflow |
-| A project with a written design | a written design document | a full plan via Claude Code native Plan mode |
+| Size | The design doc |
+|------|----------------|
+| A small change | a short one: what you already covered together, written down |
+| A project | the full written design (below) |
+
+Short or full, the design doc has an **Approaches** part: the two or
+three ways you considered building it, what each trades off, which one
+they picked, and why. They pick in the conversation, before you write
+the doc.
 
 If it grows mid-task, stop, say so, and step up a size.
 
@@ -144,30 +209,40 @@ order, and brainstorm them one at a time.
 
 ## The Written Design
 
-For a project, write a plain document a talented builder in the domain
-could plan from without going back to your human partner. Cover:
+Write a plain document a talented builder in the domain could plan
+from without going back to your human partner. Cover:
 
 - intent and the why
 - goals, non-goals, anti-goals
 - constraints
+- approaches (above)
 - the parts of the how they decided, as they decided them
 - what's left to the builder
+
+For a small change, the short design covers the same points in a line
+or two each and goes straight to your human partner, without the
+builder check.
 
 **Where it goes:** in a software repo,
 `docs/specs/YYYY-MM-DD-<topic>-design.md`, committed.
 Otherwise, ask. Your human partner's preferences override both.
 
-**Builder check:** Read the document critically as an implementer would before presenting it to your human partner: check for missing edge cases, ambiguity in contracts, and unresolved technical details. Sort questions into three piles:
+**Builder check** (for a project): Read the document critically as an
+implementer would before presenting it to your human partner: check for
+missing edge cases, ambiguity in contracts, and unresolved technical details.
+Sort questions into three piles:
 
 - **Answered already** by the conversation or the project: clarify directly in the document.
 - **Minor:** Settle it yourself and mark it in the document as your call.
 - **Theirs:** Only your human partner can answer it, and the answer changes what gets built.
 
-Bring the "theirs" pile in one message, most important first. Update the document with their answers, then hand it over with a short list of the calls you made so they can check those while reading.
+Bring the "theirs" pile in one message, most important first. Update the
+document with their answers, then hand it over with a short list of the
+calls you made so they can check those while reading.
 
 <HARD-GATE>
-Nothing gets built until your human partner approves the full
-description: in chat for a small change, the document for a project.
+Nothing gets built until your human partner approves the design doc:
+the short one for a small change, the full one for a project.
 Building includes writing product code, scaffolding, installing
 dependencies, creating projects, and invoking an implementation skill.
 Reading and exploring directly in the codebase are fine.
@@ -177,20 +252,21 @@ and the gate goes with it. A spike they said yes to may be built; it
 stays labeled throwaway, and keeping what it produced is a new request
 that comes back through this gate.
 
-After a project's document is approved (saved to `docs/specs/YYYY-MM-DD-<topic>-design.md`),
-the next step is the plan. For software, transition directly to **Claude Code's native Plan mode**
-to formulate the plan at `docs/plans/YYYY-MM-DD-<feature-name>.md`,
-and do not invoke a separate planning skill.
+After the design doc is approved (saved to `docs/specs/YYYY-MM-DD-<topic>-design.md`),
+the next step is the plan. Transition directly to **Claude Code's native Plan mode**
+to formulate the plan at `docs/plans/YYYY-MM-DD-<feature-name>.md`.
+Once approved, execute via `/executing-plans`.
 </HARD-GATE>
 
 ## Red Flags
 
 | Thought | Reality |
 |---------|---------|
-| "I'll offer options to save them effort" | Options steer. Ask them to describe it first. |
+| "I'll offer a menu of what they might want" | Options steer. Ask them to describe it first. |
 | "I'll fill in sensible defaults" | Good. Say them out loud. A default they never heard is one they couldn't reject. |
+| "I've answered their questions, so I'll write the doc" | Lay out the approaches first, in a message of their own. |
 | "I should explain the process first" | Ask your question. The process shows itself. |
-| "They said 'sounds good' to the idea" | Approval covers what you showed them. A description you haven't written isn't approved. |
+| "They said 'sounds good' to the idea" | Approval covers what you showed them. A design doc you haven't written isn't approved. |
 | "The spike works, I'll keep building on it" | Keeping it is a new request. Back through the gate. |
 
 ## Visual Companion

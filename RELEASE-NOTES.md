@@ -1,5 +1,25 @@
 # Superpowers Release Notes
 
+## v7.0.1 (2026-10-21)
+
+This release retunes brainstorming after its rebuild in v7.0.0. Brainstorming now digs for context before it asks anything, and tries to ask better questions.
+
+It also trims long skills so they better survive compaction on Claude Code, and adds tests to verify that every `SKILL.md` stays under the 20,000-byte compaction cut.
+
+### Brainstorming
+
+- **It digs for context first.** In an existing project, or when you point it at a spec, plan, or files, it reads them before its first message and doesn't ask what they already answer. (#2560)
+- **It tries to ask better questions.** When you've already said what you want, it plays your request back with what it found in the project and asks about the one thing still open. Later questions build on your answers and on what it found, and say what the answer would change. (#2560, #2571)
+- **It offers to skip the questions only when it started on its own.** If you asked for brainstorming by name or with `/brainstorming`, it no longer offers to skip it. (#2560)
+- **It lays out the approaches and writes a design doc before building.** It presents two or three ways to build the thing, recommends one, and asks you to pick. Then it writes a design doc, a short one for a small change, and builds nothing until you approve it. (#2571)
+
+### Skills better survive compaction on Claude Code
+
+After a compaction, Claude Code re-attaches each skill cut off at 20,000 characters, so anything past that point is gone for the rest of the session.
+
+- **`writing-skills`** moves its supporting docs, the SKILL.md template and discovery guidance, bulletproofing, and flowchart conventions into `references/`. (#2564)
+- **`tests/skill-size/test-skill-size.sh`** fails when any `SKILL.md` reaches 20,000 bytes. (#2565)
+
 ## v7.0.0 (2026-10-09)
 
 We rebuilt brainstorming from scratch so it does a much better job of what it was always for: helping you work out what you actually want and put it into words before anything gets built. The new skill asks you to describe what you're after and why, plays back what it heard so you can correct it, and keeps asking good questions until the picture is clear. Then it matches the process to the work, from just doing it to writing a full design. 

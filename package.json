@@ -1,6 +1,6 @@
 {
   "name": "duwscanspower",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "Superpowers skills and runtime bootstrap for Claude Code",
   "type": "module",
   "keywords": [
@@ -8,7 +8,6 @@
     "skills",
     "tdd",
     "debugging",
-    "subagents",
     "workflow"
   ]
 }
