@@ -1,15 +1,17 @@
 ---
 name: executing-plans
-description: Use when executing an implementation plan in the current session as the implementer yourself — your human partner chose inline execution
+description: Use when executing an implementation plan in the current session — single-session inline execution with TDD, no subagents, and an inline self-review pass
 ---
 
 # Executing Plans (Claude Code Inline Execution)
 
-Execute the plan yourself, task by task, in the current session: no subagent implementer per task. A single fresh-context review of the whole branch is performed at the end via the `Agent` tool.
+Execute the plan yourself, task by task, in the current session: 100% single-session execution, no subagents. An inline self-review of the whole branch is performed at the end before completion.
 
-**Why inline:** Inline execution runs in one continuous session context (yours) with one reviewer at the end. It avoids spawning a worker subagent per task while maintaining rigor through strict Test-Driven Development (TDD).
+**Why inline:** Inline execution runs in one continuous session context (yours). It eliminates the latency, cost, and context fragmentation of subagent dispatches while maintaining engineering rigor through strict Test-Driven Development (TDD).
 
-**Core principle:** Follow the plan step-by-step. Prove each task with a test you watched fail and then pass (TDD), commit each task cleanly, and dispatch a final review before finishing.
+**Model & Effort recommendation:** Execute plans with `model: sonnet` and `effort: medium`. You can trigger this automatically with the slash command `/executing-plans` (or `/duwscanspower:executing-plans`).
+
+**Core principle:** Follow the plan step-by-step. Prove each task with a test you watched fail and then pass (TDD), commit each task cleanly, and conduct an inline whole-branch self-review before finishing.
 
 **Continuous execution:** Do not pause to ask "should I continue?" between tasks. Execute the plan to completion unless blocked by:
 1. An irreversible or destructive operation.
@@ -21,10 +23,8 @@ Execute the plan yourself, task by task, in the current session: no subagent imp
 
 ## When to Use
 
-- You have an approved plan from Claude Code native Plan mode and your human partner chose inline execution.
-- Tasks are mostly independent.
-
-Prefer `superpowers:subagent-driven-development` when your human partner wants a dedicated review gate after every single task.
+- You have an approved plan from Claude Code native Plan mode (stored at `docs/plans/YYYY-MM-DD-<feature-name>.md`).
+- You are ready to implement the tasks.
 
 ---
 
@@ -38,7 +38,7 @@ flowchart TD
     Verify --> MarkDone["5. Mark todo complete"]
     MarkDone --> MoreTasks{"More tasks remain?"}
     MoreTasks -->|Yes| TakeTask
-    MoreTasks -->|No| FinalReview["6. Final Whole-Branch Review (Agent tool: sonnet / medium effort)"]
+    MoreTasks -->|No| FinalReview["6. Inline Whole-Branch Self-Review Pass"]
     FinalReview --> Fixes{"Critical / Important findings?"}
     Fixes -->|Yes| OneFixPass["Single TDD fix pass & re-test"]
     OneFixPass --> Finish["7. superpowers:finishing-a-development-branch"]
@@ -80,27 +80,23 @@ Before marking a task complete:
 
 ---
 
-## Final Review
+## Final Review (Inline Whole-Branch Self-Review)
 
 Once all tasks in the plan are complete:
 1. Determine the merge base: `git merge-base main HEAD`.
-2. Dispatch a whole-branch code reviewer via Claude Code's `Agent` tool (`model: "sonnet"`, `effort: "medium"`):
-   ```json
-   {
-     "name": "Agent",
-     "input": {
-       "description": "Final whole-branch review",
-       "subagent_type": "general-purpose",
-       "model": "sonnet",
-       "effort": "medium",
-       "prompt": "Perform a comprehensive review of the branch diff: 'git diff $(git merge-base main HEAD)..HEAD' against the plan, verifying correctness, test hygiene, security, and maintainability."
-     }
-   }
+2. Inspect the complete branch diff directly:
+   ```bash
+   git diff $(git merge-base main HEAD)..HEAD
    ```
-3. **Handle Findings**:
+3. Evaluate the diff against the plan and code quality rubric from `superpowers:requesting-code-review`:
+   * **Plan alignment:** Did all tasks deliver what was planned? Any unintended changes?
+   * **Code hygiene & types:** Clean interfaces, error handling, no debug artifacts or dead code.
+   * **Test coverage:** Did every change get tests? Do tests verify behavior, not mocks?
+   * **Regression & security:** Does the entire test suite pass cleanly? Any security/permission regressions?
+4. **Handle Findings**:
    * **Critical / Important**: Fix them in a single focused TDD pass (write failing test $\rightarrow$ fix $\rightarrow$ green test suite).
    * **Minor**: Present them to your human partner in your final summary as deferred items.
-4. Once the final review is clean, invoke `superpowers:finishing-a-development-branch`.
+5. Once the final review is clean, invoke `superpowers:finishing-a-development-branch`.
 
 ---
 
@@ -133,9 +129,9 @@ You: I'm using the executing-plans skill to implement this plan inline.
 
 --- After all tasks ---
 [Run full suite: npm test -> 12/12 passed]
-[Dispatch Agent tool for final whole-branch review: model sonnet, effort medium]
-Reviewer: Spec compliance ✅. No critical issues. One minor suggestion (add README snippet).
-[Deferred minor noted for user]
+[Inspect branch diff: git diff $(git merge-base main HEAD)..HEAD]
+[Inline Self-Review]: Spec compliance ✅. No critical issues. All tests green.
+[Deferred minor noted for user: add README snippet]
 
 Done! Using superpowers:finishing-a-development-branch.
 ```

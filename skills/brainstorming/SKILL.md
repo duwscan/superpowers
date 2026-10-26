@@ -157,31 +157,20 @@ could plan from without going back to your human partner. Cover:
 `docs/specs/YYYY-MM-DD-<topic>-design.md`, committed.
 Otherwise, ask. Your human partner's preferences override both.
 
-**Builder check:** dispatch a fresh subagent with
-`builder-check-prompt.md` in this directory. When you tell your human
-partner you're writing it up, say a reviewer will read it first and you
-may come back once with a few questions. Don't hand over the document
-until the check is back. Sort what the builder asks into three piles:
+**Builder check:** Read the document critically as an implementer would before presenting it to your human partner: check for missing edge cases, ambiguity in contracts, and unresolved technical details. Sort questions into three piles:
 
-- **Answered already** by the conversation or the project: put the answer
-  in the document.
-- **Minor:** a sensible builder could settle it without changing what gets
-  built. Settle it yourself and mark it in the document as your call.
-- **Theirs:** only your human partner can answer it, and the answer changes
-  what gets built.
+- **Answered already** by the conversation or the project: clarify directly in the document.
+- **Minor:** Settle it yourself and mark it in the document as your call.
+- **Theirs:** Only your human partner can answer it, and the answer changes what gets built.
 
-Bring the "theirs" pile in one message, most important first. Update the
-document with their answers, then hand it over with a short list of the
-calls you made so they can check those while reading. That's the only
-round of questions the check produces. Without a subagent tool, read the
-document as that builder yourself.
+Bring the "theirs" pile in one message, most important first. Update the document with their answers, then hand it over with a short list of the calls you made so they can check those while reading.
 
 <HARD-GATE>
 Nothing gets built until your human partner approves the full
 description: in chat for a small change, the document for a project.
 Building includes writing product code, scaffolding, installing
 dependencies, creating projects, and invoking an implementation skill.
-Reading and exploring are fine — but remember to dispatch the `Explore` subagent (model: haiku) for any non-trivial codebase research.
+Reading and exploring directly in the codebase are fine.
 
 Two exceptions. If they opted out of the questions, the skill is done
 and the gate goes with it. A spike they said yes to may be built; it
@@ -190,7 +179,7 @@ that comes back through this gate.
 
 After a project's document is approved (saved to `docs/specs/YYYY-MM-DD-<topic>-design.md`),
 the next step is the plan. For software, transition directly to **Claude Code's native Plan mode**
-(or built-in `Plan` subagent) to formulate the plan at `docs/plans/YYYY-MM-DD-<feature-name>.md`,
+to formulate the plan at `docs/plans/YYYY-MM-DD-<feature-name>.md`,
 and do not invoke a separate planning skill.
 </HARD-GATE>
 

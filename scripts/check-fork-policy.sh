@@ -16,8 +16,21 @@ else
   echo "OK: no using-git-worktrees references in skills/ or README.md"
 fi
 
-# 2. Check skills directory
-echo "OK: $(find skills -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ') skills in skills/"
+# 2. Check skills directory count and forbidden subagent skills
+skill_count=$(find skills -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
+if [ "$skill_count" -ne 11 ]; then
+  echo "POLICY VIOLATION: expected 11 skills in skills/, found $skill_count"
+  failures=1
+else
+  echo "OK: exactly 11 skills in skills/"
+fi
+
+if [ -d "skills/subagent-driven-development" ] || [ -d "skills/dispatching-parallel-agents" ]; then
+  echo "POLICY VIOLATION: subagent skills reintroduced in skills/"
+  failures=1
+else
+  echo "OK: no subagent skills in skills/"
+fi
 
 # 3. skills/ must not reference docs/superpowers/ (specs/plans default to docs/specs/ and docs/plans/).
 if grep -rqn "docs/superpowers" skills/; then

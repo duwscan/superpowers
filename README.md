@@ -25,7 +25,7 @@ Once it's teased a spec out of the conversation, it shows it to you in chunks sh
 
 After you've signed off on the design, your agent puts together an implementation plan that's clear enough for an enthusiastic junior engineer with poor taste, no judgement, no project context, and an aversion to testing to follow. It emphasizes true red/green TDD, YAGNI (You Aren't Gonna Need It), and DRY. 
 
-Next up, once you say "go", it launches a *subagent-driven-development* process, having agents work through each engineering task, inspecting and reviewing their work, and continuing forward. It's not uncommon for your agent to work autonomously for a couple hours at a time without deviating from the plan you put together.
+Next up, once you say "go", run the `/executing-plans` command to automatically switch to Sonnet with medium effort and execute each engineering task inline in your session using strict TDD, followed by an inline whole-branch review before finishing.
 
 There's a bunch more to it, but that's the core of the system. And because the skills trigger automatically, you don't need to do anything special. Your coding agent just has Superpowers.
 
@@ -51,15 +51,15 @@ Or install directly from the marketplace:
 
 ## The Basic Workflow
 
-1. **brainstorming** - Activates before building anything. Draws out what you actually want, and why, through questions that get you describing it. Non-trivial codebase exploration during brainstorming is handled via the `Explore` subagent (`model: haiku`).
+1. **brainstorming** - Activates before building anything. Draws out what you actually want, and why, through questions that get you describing it. Saves approved designs to `docs/specs/`.
 
-2. **Claude Code Native Planning** - Activates with approved design. Enter Claude Code's native Plan mode (`Plan` subagent) to decompose the design into bite-sized, verifiable tasks.
+2. **Claude Code Native Planning** - Activates with approved design. Enter Claude Code's native Plan mode to decompose the design into bite-sized, verifiable tasks at `docs/plans/`.
 
-3. **subagent-driven-development** or **executing-plans** - Activates with plan. Either dispatches a fresh subagent per task with a review after each (token-optimized via dynamic model and effort selection based on task complexity), or implements tasks inline with a final whole-branch review at the end.
+3. **/executing-plans** - Dedicated slash command that auto-switches to `model: sonnet` with `medium` effort and executes the plan inline, task-by-task with strict TDD and an inline review pass.
 
 4. **test-driven-development** - Activates during implementation. Enforces RED-GREEN-REFACTOR: write failing test, watch it fail, write minimal code, watch it pass, commit. Deletes code written before tests.
 
-5. **requesting-code-review** - Activates between tasks. Reviews against plan, reports issues by severity. Critical issues block progress.
+5. **requesting-code-review** - Inline whole-branch review pass against git diff before completion.
 
 6. **finishing-a-development-branch** - Activates when tasks complete. Verifies tests, presents options (merge/PR/keep/discard).
 
@@ -92,13 +92,11 @@ Superpowers is built by [Jesse Vincent](https://blog.fsck.com) and the rest of t
 - **diagnosing-superpowers** - Work out what went wrong in a session, with evidence; export a scrubbed bundle or file an issue
 
 **Collaboration** 
-- **brainstorming** - Drawing out intent before building (uses Explore subagent for research)
-- **executing-plans** - Inline plan execution: one context, one final review
-- **dispatching-parallel-agents** - Concurrent subagent workflows
-- **requesting-code-review** - Pre-review checklist
+- **brainstorming** - Drawing out intent before building
+- **executing-plans** - Inline single-session plan execution with strict TDD and self-review
+- **requesting-code-review** - Inline code review rubric & checklist
 - **receiving-code-review** - Responding to feedback
 - **finishing-a-development-branch** - Merge/PR decision workflow
-- **subagent-driven-development** - Task-by-task execution with dynamic model & effort cost optimization
 
 **Meta**
 - **writing-skills** - Create new skills following best practices (includes testing methodology)

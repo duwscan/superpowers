@@ -4,17 +4,13 @@ This fork (`duwscan/superpowers`, branch `main`) tracks upstream `obra/superpowe
 (remote `upstream`). It carries deliberate fork-specific changes that must survive
 every sync:
 
-1. **No git-worktree usage** — the `using-git-worktrees` skill is deleted; SDD and
-   executing-plans work on a feature branch in the current checkout.
-2. **Oh My Pi (OMP) support** — `.omp/extensions/superpowers.ts` bootstrap,
-   `references/omp-tools.md`, `omp.extensions` in `package.json`, `tests/omp/`.
+1. **No git-worktree usage** — the `using-git-worktrees` skill is deleted; executing-plans works on a feature branch in the current checkout.
+2. **Dedicated to Claude Code (Single-Session, No Subagents)** — all non-Claude platform adapters removed; `subagent-driven-development` and `dispatching-parallel-agents` removed in favor of `executing-plans` (with `/executing-plans` command auto switching to `sonnet` medium).
 3. **Plugin renamed to `duwscanspower`** in `.claude-plugin/` (the shared
    distribution identity), with homepage/repository pointing at
    the fork.
 4. **Specs and plans default to `docs/specs/` and `docs/plans/`** — `brainstorming`
-   and `writing-plans` save artifacts to `docs/specs/` and `docs/plans/` instead of
-   `docs/superpowers/specs/` and `docs/superpowers/plans/` to keep consumer projects
-   clean of vendor namespaces.
+   saves specs to `docs/specs/`, and Claude Code Native Plan mode saves plans to `docs/plans/`.
 
 Upstream PRs land on `dev`; releases are cut to `main`. Sync from `upstream/main`
 (stable releases only).
@@ -34,7 +30,7 @@ make sync-push     # push, then refresh the local OMP marketplace install
 |---|---|---|
 | `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json` | Upstream bumps `version` every release; fork changed `name` + URLs | Take upstream's **version**, keep fork's **name** (`duwscan-s-superpowers`) and URLs |
 | `README.md`, `RELEASE-NOTES.md` | Both sides edit | Take upstream's text, re-add the fork's OMP install section and the 6-step workflow if overwritten |
-| `skills/subagent-driven-development/SKILL.md`, `skills/executing-plans/SKILL.md` | Fork removed worktree usage; upstream iterates on these skills constantly | Merge block by block; preserve the fork policy: feature branch, no worktree |
+| `skills/executing-plans/SKILL.md` | Fork removed worktree and subagents; upstream iterates on these skills constantly | Merge block by block; preserve the fork policy: feature branch, inline execution |
 | `tests/claude-code/*` | Fork deleted the two worktree tests | Modify/delete conflict → delete again. New upstream worktree tests merge clean but will fail — remove or adapt them |
 | `.muse-plugin/plugin.json` | Fork dropped one skill entry; upstream adds new skills to the same list | Add upstream's new entries, keep `using-git-worktrees` absent |
 

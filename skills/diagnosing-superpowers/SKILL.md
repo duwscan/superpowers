@@ -33,14 +33,10 @@ Create a todo per step. Steps 5–7 run only on their stated condition.
    `~/.superpowers/diagnosing-superpowers/<session-id>/`, tell your
    partner the path, and fill `templates/case.md` there, following its
    provenance rules for environment and skill observations.
-3. **Triage.** Read the region around the reported problem yourself. Then
-   dispatch one analyst subagent per dimension in parallel, each given the
-   case file path, `prompts/analyst-common.md`, and one dimension file from
-   `prompts/`: `skill-timeline.md`,
-   `plan-adherence.md`, `repeated-work.md`, `stumbles.md`,
-   `quality-evidence.md`, `request-conflicts.md`, `cost-and-time.md`.
-   Split a dimension by turn range when the transcript is long. Discard
-   any returned finding without `path:line`.
+3. **Triage.** Read the transcript region around the reported problem.
+   Inspect the evidence directly across the key dimensions: skill timeline,
+   plan adherence, repeated work, stumbles, quality evidence, request conflicts,
+   and cost/time. Discard any finding without `path:line`.
 4. **Report.** Fill every section of `templates/report.md` in order, write
    it to the workspace, show it, and give the path. Check what cited content
    actually proves and preserve the supporting case; a symlink alias is not a

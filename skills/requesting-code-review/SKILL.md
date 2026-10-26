@@ -1,95 +1,60 @@
 ---
 name: requesting-code-review
-description: Use when completing tasks, implementing major features, or before merging to verify work meets requirements
+description: Use when completing tasks, implementing major features, or before merging to verify work meets requirements via an inline code review pass
 ---
 
-# Requesting Code Review
+# Code Review (Inline Self-Review Pass)
 
-Dispatch a code reviewer subagent to catch issues before they cascade. The reviewer gets precisely crafted context for evaluation — never your session's history.
+Perform a structured, critical review of code changes against requirements and engineering standards before merging to main or finishing a branch.
 
-**Core principle:** Review early, review often.
+**Core principle:** Review early, review often. Read the diff with the skepticism of an external reviewer.
 
-## When to Request Review
+## When to Review
 
 **Mandatory:**
-- After each task in subagent-driven development
-- After completing major feature
-- Before merge to main
+- Before completing an implementation branch (`superpowers:finishing-a-development-branch`)
+- After completing a major feature or refactor
+- Before merging to `main`
 
 **Optional but valuable:**
-- When stuck (fresh perspective)
-- Before refactoring (baseline check)
-- After fixing complex bug
+- When stuck (pause and review what changed)
+- Before refactoring (baseline diff check)
+- After fixing a complex bug
 
-## How to Request
+## Review Process
 
-**1. Get git SHAs:**
+**1. Inspect the Git Diff:**
 ```bash
-BASE_SHA=$(git rev-parse HEAD~1)  # or: git merge-base origin/main HEAD
-HEAD_SHA=$(git rev-parse HEAD)
+BASE_SHA=$(git merge-base origin/main HEAD 2>/dev/null || git merge-base main HEAD)
+git diff --stat "$BASE_SHA"..HEAD
+git diff "$BASE_SHA"..HEAD
 ```
 
-**2. Dispatch code reviewer subagent:**
+**2. Evaluate Against the Review Rubric:**
+Apply the rubric at [code-reviewer.md](code-reviewer.md):
+- **Plan alignment:** Does the implementation match the plan or requirements? Any unjustified scope creep or omissions?
+- **Code hygiene:** Clean interfaces, proper error handling, type safety, no leftover debug prints or commented-out code.
+- **Test coverage:** Do tests verify actual behavior rather than mocks? Are edge cases and error paths tested?
+- **Regression check:** Does the entire test suite run and pass cleanly?
 
-Dispatch a `general-purpose` subagent, filling the template at [code-reviewer.md](code-reviewer.md)
-
-**Placeholders:**
-- `{DESCRIPTION}` - Brief summary of what you built
-- `{PLAN_OR_REQUIREMENTS}` - What it should do
-- `{BASE_SHA}` - Starting commit
-- `{HEAD_SHA}` - Ending commit
-
-**3. Act on feedback:**
-- Fix Critical issues immediately
-- Fix Important issues before proceeding
-- Note Minor issues for later
-- Push back if reviewer is wrong (with reasoning)
-
-## Example
-
-```
-[Just completed Task 2: Add verification function]
-
-You: Let me request code review before proceeding.
-
-BASE_SHA=$(git log --oneline | grep "Task 1" | head -1 | cut -d' ' -f1)
-HEAD_SHA=$(git rev-parse HEAD)
-
-[Dispatch code reviewer subagent]
-  DESCRIPTION: Added verifyIndex() and repairIndex() with 4 issue types
-  PLAN_OR_REQUIREMENTS: Task 2 from docs/plans/deployment-plan.md
-  BASE_SHA: a7981ec
-  HEAD_SHA: 3df7661
-
-[Subagent returns]:
-  Strengths: Clean architecture, real tests
-  Issues:
-    Important: Missing progress indicators
-    Minor: Magic number (100) for reporting interval
-  Assessment: Ready to proceed
-
-You: [Fix progress indicators]
-[Continue to Task 3]
-```
+**3. Act on Feedback:**
+- **Critical / Important:** Fix immediately in a focused TDD pass before proceeding.
+- **Minor:** Note in the final summary for your human partner.
 
 ## Common Rationalizations
 
 | Excuse | Reality |
 |--------|---------|
-| "I'll just review the diff myself instead of dispatching a reviewer" | You're the coordinator — reviewing the diff inline burns the context window you need to keep driving the work. Dispatch a reviewer subagent: the diff and the evaluation live in its context, and only the findings come back to you. |
-| "The reviewer needs my whole session history to understand the change" | Hand it precisely crafted context, never your session's history. That keeps the reviewer on the work product, not your thought process. |
+| "I wrote the code, so I know it works" | Authors suffer confirmation bias. Reading the actual `git diff` line-by-line reveals missed edge cases and unintended edits. |
+| "Tests pass, so review isn't needed" | Passing tests don't catch architectural flaws, security holes, or unhandled negative cases not in the tests. |
+| "The diff is small, I can skip review" | Small changes frequently cause subtle regressions. Run the rubric. |
 
 ## Red Flags
 
 **Never:**
 - Skip review because "it's simple"
-- Ignore Critical issues
-- Proceed with unfixed Important issues
-- Argue with valid technical feedback
+- Ignore Critical or Important issues
+- Merge or complete a branch without running the full test suite
+- Assume behavior without checking the diff
 
-**If reviewer wrong:**
-- Push back with technical reasoning
-- Show code/tests that prove it works
-- Request clarification
-
-See template at: [code-reviewer.md](code-reviewer.md)
+See rubric details at: [code-reviewer.md](code-reviewer.md)

@@ -3,10 +3,6 @@ name: using-superpowers
 description: Use when starting any conversation - establishes how to find and use skills, requiring skill invocation before ANY response including clarifying questions
 ---
 
-<SUBAGENT-STOP>
-If you were dispatched as a subagent to execute a specific task, ignore this skill.
-</SUBAGENT-STOP>
-
 <EXTREMELY-IMPORTANT>
 If you think there is even a 1% chance a skill might apply to what you are doing, you ABSOLUTELY MUST invoke the skill.
 
@@ -30,30 +26,18 @@ When multiple skills apply, process skills come first — they set the approach,
 - "Let's build X" → superpowers:brainstorming first, then implementation skills.
 - "Fix this bug" → superpowers:systematic-debugging first, then domain skills.
 
-## Codebase Exploration & Research: Prioritize `Explore` Subagent
+## Codebase Exploration & Research
 
-When you need to research or explore the codebase (such as searching symbols, mapping files, or understanding architecture across multiple modules), **prioritize dispatching an `Explore` subagent** rather than performing extensive searches in the main session.
-
-- Direct file reads or quick checks in the main session are completely permitted (you are not forbidden from using `Read`, `Grep`, or `Glob` directly for targeted tasks).
-- However, for non-trivial exploration or broad codebase research, dispatching an `Explore` subagent keeps the main session's context window clean and minimizes token burn:
-  ```json
-  {
-    "name": "Agent",
-    "input": {
-      "subagent_type": "Explore",
-      "model": "haiku",
-      "description": "Explore <topic / module / symbol>",
-      "prompt": "Find <files, interfaces, schemas, call sites> for <topic>. Return a concise summary with exact file paths and signatures."
-    }
-  }
-  ```
-- Use `model: "haiku"` for fast, cost-efficient, read-only exploration without wasting reasoning tokens.
+Explore and inspect the codebase directly in your session using Claude Code's native tools (`Read`, `Grep`, `Glob`).
+- Subagents are disabled/removed in this setup; all analysis and development run directly in the current session.
+- You are fully permitted to read files, grep code, and inspect symbols directly. Keep searches focused on relevant directories to preserve context.
 
 ## Planning: Claude Code Native Plan Mode
 
-The `writing-plans` skill has been replaced by Claude Code's native planning feature.
-- After brainstorming is completed and the design is approved (saved to `docs/specs/YYYY-MM-DD-<topic>-design.md`), transition directly to **Claude Code native Plan mode** (or built-in `Plan` subagent) to formulate the task plan.
+The legacy `writing-plans` skill has been replaced by Claude Code's native planning feature.
+- After brainstorming is completed and the design is approved (saved to `docs/specs/YYYY-MM-DD-<topic>-design.md`), transition directly to **Claude Code native Plan mode** to formulate the task plan.
 - Break work into small, verifiable tasks with explicit test expectations, and save the plan to `docs/plans/YYYY-MM-DD-<feature-name>.md`.
+- Once approved, proceed to execution via `superpowers:executing-plans` (or trigger the `/executing-plans` slash command to automatically use `sonnet` with `medium` effort).
 
 ## Red Flags
 
@@ -63,8 +47,8 @@ These thoughts mean STOP—you're rationalizing:
 |---------|---------|
 | "This is just a simple question" | Questions are tasks. Check for skills. |
 | "I need more context first" | Skill check comes BEFORE clarifying questions. |
-| "Let me explore the codebase first" | Prioritize dispatching Explore subagent (`model: haiku`) for broad research to keep main context clean. |
-| "I can check git/files quickly" | Quick checks are fine, but prefer Explore subagent for multi-file investigations. |
+| "Let me explore the codebase first" | Skill check comes BEFORE exploring or reading files. |
+| "I can check git/files quickly" | Skill check comes BEFORE checking git/files. |
 | "Let me gather information first" | Skills tell you HOW to gather information. |
 | "This doesn't need a formal skill" | If a skill exists, use it. |
 | "I remember this skill" | Skills evolve. Read current version. |
@@ -77,8 +61,8 @@ These thoughts mean STOP—you're rationalizing:
 ## Platform Reference
 
 This repository is dedicated solely to **Claude Code**:
-- Refer to `references/claude-code-tools.md` for specific tool parameters (`Agent`, `subagent_type`, `model`, `effort`).
+- Refer to `references/claude-code-tools.md` for guidelines on single-session execution, Native Plan mode, and model/effort configuration via `/executing-plans`.
 
 ## User Instructions
 
-User instructions (CLAUDE.md, AGENTS.md, GEMINI.md, etc, direct requests) take precedence over skills, which in turn override default behavior. Only skip skill workflows or instructions when your human partner has explicitly told you to.
+User instructions (CLAUDE.md, AGENTS.md, direct requests) take precedence over skills, which in turn override default behavior. Only skip skill workflows or instructions when your human partner has explicitly told you to.
