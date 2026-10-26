@@ -93,6 +93,7 @@ Superpowers is built by [Jesse Vincent](https://blog.fsck.com) and the rest of t
 
 **Collaboration** 
 - **brainstorming** - Drawing out intent before building
+- **how** - Subsystem architecture explanation, runtime flows, and code walkthroughs
 - **executing-plans** - Inline single-session plan execution with strict TDD and self-review
 - **requesting-code-review** - Inline code review rubric & checklist
 - **receiving-code-review** - Responding to feedback

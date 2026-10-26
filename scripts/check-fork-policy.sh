@@ -18,11 +18,11 @@ fi
 
 # 2. Check skills directory count and forbidden subagent skills
 skill_count=$(find skills -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
-if [ "$skill_count" -ne 10 ]; then
-  echo "POLICY VIOLATION: expected 10 skills in skills/, found $skill_count"
+if [ "$skill_count" -ne 11 ]; then
+  echo "POLICY VIOLATION: expected 11 skills in skills/, found $skill_count"
   failures=1
 else
-  echo "OK: exactly 10 skills in skills/"
+  echo "OK: exactly 11 skills in skills/"
 fi
 
 if [ -d "skills/subagent-driven-development" ] || [ -d "skills/dispatching-parallel-agents" ]; then
